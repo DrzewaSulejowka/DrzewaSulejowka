@@ -43,6 +43,18 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+var basemaps = {
+    Warstwa bazowa: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 22,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }),
+
+    Rejestr zabytków nieruchomych: L.tileLayer.wms('http://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get', {
+        layers: 'Rejestr zabytków nieruchomych'
+    })
+};
+L.control.layers(basemaps).addTo(map);
+basemaps.Topography.addTo(map);
 
 /*
 //pobieranie koordynatów z GeoJson
