@@ -1,29 +1,29 @@
-
+//Helpers
 async function collectPinData(fileName)
 {
-let data = await fetch(fileName);
-data = await data.text();
-data = JSON.parse(data);
-let output = [];
-data.features.forEach(element => {
-  output.push(element);
-});
-return output;
+  let data = await fetch(fileName);
+  data = await data.text();
+  data = JSON.parse(data);
+  let output = [];
+  data.features.forEach(element => {
+    output.push(element);
+  });
+  return output;
 }
 
 async function collectAreaData(fileName)
 {
-let data = await fetch(fileName);
-data = await data.text();
-data = JSON.parse(data);
-let output = [];
-output[0] = [];
-data.features.forEach(element => {
-element.geometry.coordinates[0].forEach(coord=>{
-    output[0].push(coord.reverse());
-})
+  let data = await fetch(fileName);
+  data = await data.text();
+  data = JSON.parse(data);
+  let output = [];
+  output[0] = [];
+  data.features.forEach(element => {
+    element.geometry.coordinates[0].forEach(coord=>{
+      output[0].push(coord.reverse());
+    })
   })
-return output;
+  return output;
 }
 
 async function main()
@@ -35,26 +35,26 @@ var treeIcon = L.icon({
     iconSize:[40, 40]
 });
 
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 21,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
 
-var map = L.map('map').setView([52.245, 21.285], 15);
+const immovable_monuments = L.tileLayer.wms('http://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get', {
+  layers: 'Immovable Monuments'
+})
+  
+const map = L.map('map', {
+	center: [52.245, 21.285],
+	zoom: 16,
+	layers: [osm]
+});
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 21,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-
-var basemaps = {
-    'Warstwa bazowa': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 22,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }),
-
-    'Rejestr zabytków nieruchomych': L.tileLayer.wms('http://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get', {
-        layers: 'Rejestr zabytków nieruchomych'
-    })
+const overlays = {
+	'Zabytki': immovable_monuments
 };
-L.control.layers(basemaps).addTo(map);
-basemaps.'Warstwa bazowa'.addTo(map);
+
+const layerControl = L.control.layers(overlays).addTo(map);
 
 /*
 //pobieranie koordynatów z GeoJson
