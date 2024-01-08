@@ -40,7 +40,7 @@ const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 
-const immovable_monuments = L.tileLayer.wms('http://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get', {
+const immovable_monuments = L.tileLayer.wms('https://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get', {
   layers: 'Immovable Monuments'
 })
   
