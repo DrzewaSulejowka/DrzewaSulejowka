@@ -50,11 +50,15 @@ const map = L.map('map', {
 	layers: [osm]
 });
 
+const baseLayers = {
+	'OpenStreetMap': osm
+};
+	
 const overlays = {
 	'Zabytki': immovable_monuments
 };
 
-const layerControl = L.control.layers(overlays).addTo(map);
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
 
 /*
 //pobieranie koordynatów z GeoJson
