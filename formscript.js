@@ -2,6 +2,7 @@ let form = document.getElementById('form');
 let tree;
 let centimeters;
 let comp;
+let byNature;
 
 function checkAll()
 {
@@ -20,14 +21,14 @@ function checkAll()
     let paragraph = document.createElement("p");
     paragraph.classList.add("h3");
     paragraph.style.color = (comp == "tak" ? "#dc3545" : "#ffc107");
-    paragraph.style.padding = "10px";
+    paragraph.classList.add("p-1");
     paragraph.id = "out";
     paragraph.appendChild(document.createTextNode(comp == "tak" ? "Musisz mieć zezwolenie" : "Musisz zgłosić usunięcie drzewa" ));
     form.appendChild(paragraph);
     let paragraph2 = document.createElement("p");
     paragraph2.classList.add("h3");
     paragraph2.style.color = (comp == "tak" ? "#dc3545" : "#ffc107");
-    paragraph2.style.padding = "10px";
+    paragraph2.classList.add("p-1");
     paragraph2.id = "out2";
     if(comp == "tak"){
     paragraph2.appendChild(document.createTextNode(cons == "tak" ? "Wniosek o zezwolenie należy złożyć do wojewódzkiego konserwatora zabytków" : "Wniosek o zezwolenie należy złożyć do Wójta/Burmistrza/Prezydenta" ));
@@ -67,14 +68,16 @@ function checkConservating()
     {
         let labelForConservation = document.createElement("label");
         labelForConservation.id = 'lconservating';
+        labelForConservation.classList.add("mt-2", "mb-2");
         labelForConservation.appendChild(document.createTextNode(`Nieruchomość (budynek z działką) znajduje się pod opieką konserwatorską?`));
-        labelForConservation.style.display = "block";
+        labelForConservation.classList.add('d-block');
         form.appendChild(labelForConservation);
         let select = document.createElement("select");
         select.id = "conservating";
-        select.style.borderColor = "black";
-        select.style.width = "10%";
-        select.style.borderRadius = "10px";
+        select.classList.add('border-black','w-25');
+        // select.style.borderColor = "black";
+        // select.style.width = "10%";
+        // select.style.borderRadius = "10px";
         select.classList.add("form-select");
         let opt1 = document.createElement("option");
         opt1.value = "none";
@@ -142,21 +145,23 @@ function collectTreeWidth()
         let paragraph = document.createElement("p");
         paragraph.classList.add("h3");
         paragraph.style.color = "#198754";
-        paragraph.style.padding = "10px";
+        paragraph.classList.add("p-2");
         paragraph.id = "out";
         paragraph.appendChild(document.createTextNode("Nie musisz mieć zezwolenia ani dokonywać zgłoszenia"));
         form.appendChild(paragraph);
     } else {
         let labelForPerimeter = document.createElement("label");
         labelForPerimeter.id = 'lcompany';
+        labelForPerimeter.classList.add("mt-2", "mb-2");
         labelForPerimeter.appendChild(document.createTextNode(`Drzewo ma zostać usunięte w związku z prowadzoną działalnością gospodarczą lub rolniczą?`));
         labelForPerimeter.style.display = "block";
         form.appendChild(labelForPerimeter);
         let select = document.createElement("select");
         select.id = "company";
-        select.style.borderColor = "black";
-        select.style.width = "10%";
-        select.style.borderRadius = "10px";
+        select.classList.add('border-black','w-25');
+        // select.style.borderColor = "black";
+        // select.style.width = "10%";
+        // select.style.borderRadius = "10px";
         select.classList.add("form-select");
         let opt1 = document.createElement("option");
         opt1.value = "none";
@@ -232,20 +237,16 @@ document.getElementById('species').addEventListener('change',()=>{
     if(tree != "none"){
     let labelForPerimeter = document.createElement("label");
     labelForPerimeter.id = 'lperimeter';
+    labelForPerimeter.classList.add("mt-2", "mb-2");
     labelForPerimeter.appendChild(document.createTextNode(`Zmierzony obwód pnia w cm (na wysokości 5cm od ziemii):`));
     form.appendChild(labelForPerimeter);
     let br = document.createElement("br");
     br.id = 'ibr';
     form.appendChild(br);
     let input = document.createElement('input');
-    input.classList.add("form-control");
+    input.classList.add("form-control", "border-black", "d-inline", "w-25", "me-2");
     input.type = "number";
     input.id = "perimeter";
-    input.style.width = "20%";
-    input.style.display = "inline";
-    input.style.borderRadius = "10px";
-    input.style.borderColor = "black";
-    input.style.marginRight = "5px";
     form.appendChild(input);
     let button = document.createElement("button");
     button.id = 'psubmit';
@@ -258,4 +259,6 @@ document.getElementById('species').addEventListener('change',()=>{
     button.appendChild(document.createTextNode("Zatwierdź"));
     form.appendChild(button);
     }
-})
+});
+
+

@@ -6,25 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="script.js" defer></script>
-    <link rel="stylesheet" href="style.css"/>
-    <link rel="stylesheet" href="bootstrap.css"/>
+    <link rel="stylesheet" href="files/style.css"/>
+    <link rel="stylesheet" href="files/bootstrap.css"/>
     <link rel="stylesheet" href="Leaflet.markercluster-1.4.1\dist\MarkerCluster.css"/>
     <link rel="stylesheet" href="Leaflet.markercluster-1.4.1\dist\MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js"></script>
     <script src="Leaflet.markercluster-1.4.1/dist/leaflet.markercluster.js"></script>
-    <script src="formscript.js" defer></script>
+    <script src="jquery.js" defer></script>
+    <script src="files/html2canvas.min.js" defer></script>
+    <!-- <script src="formscript.js" defer></script> -->
     <script src="anotherscript.js" defer></script>
+    <script src="script.js" type="text/javascript" defer></script>
+    <script src="savemap.js" type="text/javascript" defer></script>
+    <script src="newFormScript.js" defer></script>
     <title>Drzewa Sulejówka</title>
-    <style>
-        label{
-            margin-top: 2% !important;
-        }
-    </style>
 </head>
-<body style="font-weight: 800;">    
-    <p class="h1" style="padding-left: 1%; padding-top: 1%; padding-bottom: 2%; background-color: #0065A7; color:white;">Drzewa Sulejówka</p>
-    <div class="firsthalf" style="float:left; width: 50%;">
+<body class="px-2 font-weight-bold px-5 vh-100">
+    <p class="h1 pt-3 pb-3 ps-3 text-light bg-primary">Drzewa Sulejówka</p>
+    <details open>
+    <summary>Wiadomość powitalna</summary>
+    <p class="h5 mt-3 ps-2">Chcesz wyciąć drzewa lub krzewy? Masz trzy możliwości - zgłoszenie zamiaru wycinki drzew, złożenie wniosku o zezwolenie lub wycinka bez formalności.<br><br>
+        Przygotuj miarkę centymetrowa i informację o gatunku. <br><br>
+        Zmierz drzewo na wysokości 5cm oraz dodatkowo na wysokości 130cm jeśli wycinka ma związek z twoją działalnością gospodarczą (na przykład masz firmę, jesteś rolnikiem).<br><br>
+        Przejdź przez kolejne pytania aby uzyskać informację, co należy zrobić w Twoim przypadku. <br><br>
+        Pamiętaj, że zieleń wokół nas jest cennym skarbem, dlatego warto dobrze przemyśleć decyzję o wycince. Dziękujemy za zrozumienie i troskę o nasze otoczenie!
+    </p>
+    </details>
+    <div class="row d-flex justify-content-center mt-3v h-75">
+    <div class="firsthalf mb-2 col-sm-6">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
               <a class="nav-link active" data-bs-toggle="tab" id="l1" onclick="moveToForm()"  aria-selected="true" role="tab">Formularz wycinania drzewa</a>
@@ -33,12 +44,52 @@
               <a class="nav-link" data-bs-toggle="tab" id="l2" onclick="moveToCalculator()" aria-selected="false" role="tab" tabindex="-1">Kalkulator wchłaniania CO<sup>2</sup></a>
             </li>
         </ul>
-        <div id="myTabContent" class="tab-content">
+         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="home" role="tabpanel">
-                <div id="form" style="margin-left: 2%;">
-                    <label>Gatunek drzewa:</label>
-                <select id="species" class="form-select" style="width: 40%; border-color: black; border-radius: 10px;">
-                    <option value="none">Wybierz gatunek</option>
+
+            <div id="form" class="ms-2">
+
+                <span id="sByNature">
+                    <label class="mt-3">Drzewo zostało złamane lub wywrócone przez siły natury</label>
+                    <select class="form-select border-black w-25" id="byNature">
+                        <option value="none" selected>wybierz</option>
+                        <option value="tak">tak</option>
+                        <option value="nie">nie</option>
+                    </select>
+                </span>
+
+                <span id="sByBushes" class="d-none">
+                    <label class="mt-3">Wniosek dotyczy wycinki:</label>
+                    <select class="form-select border-black w-25" id="byBushes">
+                        <option value="none" selected>wybierz</option>
+                        <option value="drzewa/drzew">drzewa/drzew</option>
+                        <option value="krzewów">krzewów</option>
+                    </select>
+                </span>
+
+                <span id="sBushesSize" class="d-none">
+                    <label class="mt-3">Podaj powierzchnię krzewów:</label>
+                    <select class="form-select border-black w-25" id="bushesSize">
+                        <option value="none" selected>wybierz</option>
+                        <option value="&lt;25 m kw">&lt;25 m kw</option>
+                        <option value="&gt;25 m kw">&gt;25 m kw</option>
+                    </select>
+                </span>
+
+                <span id="sBushesCompany" class="d-none">
+                    <label class="mt-3">Czy wycinka ma związek z twoją działalnością gospodarczą?</label>
+                    <select class="form-select border-black w-25" id="bushesCompany">
+                        <option value="none" selected>wybierz</option>
+                        <option value="tak">tak</option>
+                        <option value="nie">nie</option>
+                    </select>
+                </span>
+
+
+            <span class="d-none" id="chooseSpecies">
+                     <label class="mt-3">Gatunek drzewa:</label>
+                <select id="species" class="form-select border-black w-50">
+                    <option value="none" selected>Wybierz gatunek</option>
                     <option value="Kasztanowiec zwyczajny">Kasztanowiec zwyczajny</option>
                     <option value="Klon jesionolistny">Klon jesionolistny</option>
                     <option value="Klon srebrzysty">Klon srebrzysty</option>
@@ -47,17 +98,44 @@
                     <option value="Topola">Topola</option>
                     <option value="Wierzba">Wierzba</option>
                     <option value="Inny">Inny</option>
-                  </select>
-                </div>
+                </select>
+            </span>
+
+            <span class="d-none" id="sPerimeter">
+                <label id="lperimeter" class="mt-3 mb-2">Zmierzony obwód pnia w cm (na wysokości 5cm od ziemii):</label>
+                <br id="ibr">
+                <input class="form-control border-black d-inline w-25 me-2" type="number" id="perimeter">
+                <button id="psubmit" type="button" class="btn btn-outline-primary btn-sm">Zatwierdź</button>
+            </span>
+
+        <span class="d-none" id="sCompany">
+            <label id="lcompany" class="mt-3 mb-2 d-block">Drzewo ma zostać usunięte w związku z prowadzoną działalnością gospodarczą lub rolniczą?</label>
+            <select id="company" class="border-black w-25 form-select">
+                <option value="none" selected>wybierz</option>
+                <option value="tak">tak</option>
+                <option value="nie">nie</option>
+            </select> 
+        </span>
+
+        <span class="d-none" id="sConservating">
+            <label id="lconservating" class="mt-3 mb-2 d-block">Nieruchomość (budynek z działką) znajduje się pod opieką konserwatorską?</label>
+            <select id="conservating" class="border-black w-25 form-select">
+                <option value="none" selected>wybierz</option>
+                <option value="tak">tak</option>
+                <option value="nie">nie</option>
+            </select>
+        </span>
+
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" style="margin-top: 5%;">
-                <div id="form2" style="margin-left: 2%; width: 45%; float:left;">
-                    <label>Podaj obwód drzewa (cm):</label> <br>
-                    <input type="number" id="num" class="form-control" style="width:60%;border-color: black; border-radius: 10px;"/> <br>
-                    <label>Podaj wysokość drzewa (cm):</label> <br>
-                    <input type="number" id="num2" class="form-control" style="width:60%;border-color: black; border-radius: 10px;"/> <br>
-                    <label>Wybierz gatunek drzewa:</label>
-                <select id="species2" class="form-select" style="width: 60%; border-color: black; border-radius: 10px;">
+        </div> 
+            <div class="tab-pane fade" id="profile" role="tabpanel">
+                <div id="form2" class="w-50 ms-1">
+                    <label class="mt-3">Podaj obwód drzewa (cm):</label> <br>
+                    <input type="number" id="num" class="form-control border-black w-75"/> <br>
+                    <label class="mt-2">Podaj wysokość drzewa (cm):</label> <br>
+                    <input type="number" id="num2" class="form-control border-black w-75"/> <br>
+                    <label class="mt-2">Wybierz gatunek drzewa:</label>
+                <select id="species2" class="form-select border-black w-75">
                     <option value="none" selected>Wybierz gatunek</option>
                     <option value="akacja">Akacja</option>
                     <option value="brzoza">Brzoza</option>
@@ -71,18 +149,23 @@
                     <option value="swierk">Świerk</option>
                     <option value="inne">Inne</option>
                 </select>
-                <buton class="btn btn-primary" style="margin-top: 2vh; border-radius: 10px; padding-left: 4%; padding-right: 4%;" onclick="calculate()">Oblicz</buton>
-                <p class="h5" id="output" style="margin-top: 2vh; font-weight: 700;" >
+                <button class="btn btn-primary mt-3 px-2"onclick="calculate()">Oblicz</button>
+                <p class="h5 font-weight-bold mt-1" id="output">
 
                 </p>
                 </div>
             </div>
           </div>
         </div>
-    </div>
-    </div>
-    <div class="secondhalf" style="float:left; width: 50%;">
-    <div id="map"></div>
+    <div class="secondhalf mb-2 col-sm-6 container h-100">
+        <div id="mapContent" class="w-100 h-100">
+            <div id="map" class="w-100 mt-3 h-100"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+        <button class="btn btn-success mt-1 align-items-center justify-content-center" id="saveMap">Zapisz mapę</button>
+        </div>
+        </div>
     </div>
     <script>
         function moveToCalculator()
@@ -105,5 +188,6 @@
                 document.getElementById('profile').classList.remove("show");
         }
     </script>
+    </div>
 </body>
 </html>

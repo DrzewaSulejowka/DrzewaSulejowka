@@ -1,3 +1,9 @@
+let map;
+let zoomControl;
+let layerControl;
+let bLayers;
+let oLays;
+
 //Helpers
 async function collectPinData(fileName)
 {
@@ -44,21 +50,37 @@ const immovable_monuments = L.tileLayer.wms('https://usluga.zabytek.gov.pl/INSPI
   layers: 'Immovable Monuments'
 })
   
-const map = L.map('map', {
+ map = L.map('map', {
 	center: [52.245, 21.285],
 	zoom: 16,
-	layers: [osm]
+	layers: [osm],
+  preferCanvas: true,
+  zoomControl: false,
+  layerControls: false,
 });
+
+
+L.Control.geocoder().addTo(map);
+
+zoomControl = L.control.zoom({
+  position:'topleft'
+}).addTo(map);
+
+let mapObject = map
 
 const baseLayers = {
 	'OpenStreetMap': osm
 };
+bLayers = baseLayers;
 	
 const overlays = {
 	'Zabytki': immovable_monuments
 };
 
-const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+oLays = overlays;
+
+
+ layerControl = L.control.layers(baseLayers, overlays).addTo(map);
 
 /*
 //pobieranie koordynatów z GeoJson
@@ -95,6 +117,8 @@ iterator++;
 });
 map.addLayer(markers);
 
+
 }
 
 main();
+
