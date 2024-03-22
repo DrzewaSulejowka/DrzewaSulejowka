@@ -3,6 +3,7 @@ let zoomControl;
 let layerControl;
 let bLayers;
 let oLays;
+let exportedValue;
 
 //Helpers
 async function collectPinData(fileName)
@@ -54,7 +55,6 @@ const immovable_monuments = L.tileLayer.wms('https://usluga.zabytek.gov.pl/INSPI
 	center: [52.245, 21.285],
 	zoom: 16,
 	layers: [osm],
-  preferCanvas: true,
   zoomControl: false,
   layerControls: false,
 });
@@ -106,15 +106,40 @@ var lodz = L.polygon(element, {color: 'green'}).addTo(map);
 
 //cluster na mapę
 
-let iterator = 1;
+// let iterator = 1;
+// data = await collectPinData('geojson/Drzewa_WGS84.geojson');
+// data.forEach(element=>{
+//   let dat = L.marker([element.geometry.coordinates[1], element.geometry.coordinates[0]], {icon:treeIcon});
+// dat.bindTooltip(`<b>id</b>: ${iterator} <br> <b>koordynaty</b>: ${element.geometry.coordinates[1].toFixed(2)}, ${element.geometry.coordinates[0].toFixed(2)}`);
+// iterator++;
+//   markers.addLayer(dat);
+// });
 var markers = new L.MarkerClusterGroup({});
-data = await collectPinData('geojson/Drzewa_WGS84.geojson');
+let iterator = 1;
+let data = await collectPinData('geojson/Drzewa.geojson');
 data.forEach(element=>{
   let dat = L.marker([element.geometry.coordinates[1], element.geometry.coordinates[0]], {icon:treeIcon});
-dat.bindTooltip(`<b>id</b>: ${iterator} <br> <b>koordynaty</b>: ${element.geometry.coordinates[1].toFixed(2)}, ${element.geometry.coordinates[0].toFixed(2)}`);
-iterator++;
+  dat.value = element.properties.bonitacja;
+  dat.coordinatesx = element.geometry.coordinates[1];
+  dat.coordinatesy = element.geometry.coordinates[0];
+  dat.on('click', (e) => {
+    document.getElementById("locationSpan").innerHTML = `(lokalizacja: [${e.target.coordinatesx} , ${e.target.coordinatesy}])`;
+    document.getElementById("treeCalculatorLocation").value = e.target.value;
+  });
+  let props = element.properties;
+  props.koordynaty = `${element.geometry.coordinates[1].toFixed(2)}, ${element.geometry.coordinates[0].toFixed(2)}`;
+  // props.id = iterator;
+  let resultStr = "";
+  let key;
+  for (key in props) {
+    resultStr += `<span style="font-size: medium"><b style="font-weight: 900;">${key}</b>: ${props[key]}</span><br />`;
+  }
+  dat.bindTooltip(resultStr);
+  // dat.bindTooltip(`<b>id</b>: ${iterator} <br> <b>koordynaty</b>: ${element.geometry.coordinates[1].toFixed(2)}, ${element.geometry.coordinates[0].toFixed(2)}`);
+  iterator++;
   markers.addLayer(dat);
 });
+
 map.addLayer(markers);
 
 

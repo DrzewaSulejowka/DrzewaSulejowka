@@ -5,11 +5,8 @@ $('#saveMap').on('click',async function() {
   map.removeControl(layerControl);
     html2canvas(mapElement, {
       useCORS: true,
-      width: mapElement.offsetWidth ,
-      height: mapElement.offsetHeight
   }).then(function(canvas) {
         var imgData = canvas.toDataURL('image/png');
-
         var downloadLink = document.createElement('a');
         downloadLink.href = imgData;
         downloadLink.download = 'mapa.png';

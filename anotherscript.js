@@ -19,3 +19,11 @@ function calculate()
     let r = Number(size.value) / 2 * Math.PI;
     output.innerHTML = `Obliczone wchłanianie CO<sup>2</sup> : ${(treesParameters[species.value] * ((Math.PI * (r * r) * Number(size2.value)) / 1000000)).toFixed(2)}kg`;
 };
+
+function clearCalculator()
+{
+    size.value = "none";
+    size2.value = "none";
+    species.value = "none";
+    output.value = "none";
+}
