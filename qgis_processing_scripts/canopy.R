@@ -5,18 +5,17 @@ library(lidR)
 library(future)
 
 # Parametry
-input_point_cloud <- "C:\\Hackathon\\input\\drzewka_wszystkie.laz"   # ścieżka do pliku z chmurą punktów
-outputs_catalogue <- "C:\\Hackathon\\output"                         # ścieżka do katalogu, w którym mają być deponowane pliki wyjściowe
+input_point_cloud <- "C:\\Hackathon\\input\\drzewka_wszystkie.laz"   # należy wprowadzić ścieżkę do pliku z chmurą punktów
+outputs_catalogue <- "C:\\Hackathon\\output"                         # należy wprowadzić ścieżkę do katalogu, w którym mają być deponowane pliki wyjściowe
 raster_name <- "dupa.tiff"                                           # nazwa wyjściowego pliku rastrowego
 tree_tops_name <- "dupa2.gpkg"                                       # nazwa wyjściowego pliku wektorowego ze szczytami koron drzew
 tree_crown_name <- "dupa3.gpkg"                                      # nazwa wyjściowego pliku wektorowego z koronami koron drzew
-coordinate_system <-"EPSG:2180"                                      # kod EPSG układu współrzędnych
 
 # import LAS/LAZ
 LASfile <- input_point_cloud
 las <- readLAS(LASfile, select = "xyzr", filter = "-drop_z_below 0")
 # układ współrzędnych
-crs(las) = coordinate_system
+crs(las) = "EPSG:2180" 
 
 
 # rasteryzacja koron (.las, rozmiar piksela, algorytm)
