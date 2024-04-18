@@ -10,12 +10,16 @@ let TREE_RESULT_SPREADING = document.getElementById('spreading');
 let TREE_RESULT_LIFESPAN = document.getElementById('lifespan');
 let TREE_RESULT_BENEFITS = document.getElementById('benefits');
 
+function resultWithText(result) {
+    return `Pozbywając się tego drzewa tracisz wartość oszacowaną na ${result}. Kwota obejmuje różnorodne procesy ekologiczne i funkcje środowiskowe, które przynoszą wartość dla ludzkości. Przykłady usług ekosystemowych to np. oczyszczanie powietrza i wody przez roślinność, zapylanie przez owady, regulacja klimatu oraz rekreacyjne i estetyczne korzyści płynące z kontaktu z naturą. Te usługi nie tylko przynoszą korzyści dla ludzi, ale także pomagają w utrzymaniu równowagi ekologicznej i zdrowia ekosystemów.`
+}
+
 function showTreeResult(value, species)
 {
     if (TREE_RESULT_BLOCK.classList.contains("d-none")) {
         TREE_RESULT_BLOCK.classList.remove("d-none");
     }
-    TREE_RESULT_VALUE.innerHTML = String(value).replace(".", ",") + " zł";
+    TREE_RESULT_VALUE.innerHTML = resultWithText(String(value).replace(".", ",") + " zł");
     TREE_RESULT_POLLINATION.innerHTML = species.pollination;
     TREE_RESULT_SPREADING.innerHTML = species.spreading;
     TREE_RESULT_LIFESPAN.innerHTML = species.lifeSpan;
@@ -45,7 +49,7 @@ class Tree
 let TREES_TYPES = {};
 
 TREES_TYPES["brzoza"] = new Tree({
-    avgPrice: 1045,
+    avgPrice: 912,
     pollination: "roślina wiatropylna",
     spreading: "barochoria, zoochoria",
     lifeSpan: "Brzoza rośnie szybko i dożywa do 120 lat.",
@@ -54,7 +58,7 @@ TREES_TYPES["brzoza"] = new Tree({
 });
 
 TREES_TYPES["buk"] = new Tree({
-    avgPrice: 1582,
+    avgPrice: 1287,
     pollination: "roślina wiatropylna",
     spreading: "zoochoria",
     lifeSpan: "Buk osiąga wiek ok. 300 lat.",
@@ -63,7 +67,7 @@ TREES_TYPES["buk"] = new Tree({
 });
 
 TREES_TYPES["dab"] = new Tree({
-    avgPrice: 1283,
+    avgPrice: 1183,
     pollination: "roślina wiatropylna",
     spreading: "anemochoria, zoochoria",
     lifeSpan: "Dąb średnio uzyskuje wiek od 200 do 600 lat.",
@@ -72,7 +76,7 @@ TREES_TYPES["dab"] = new Tree({
 });
 
 TREES_TYPES["grab"] = new Tree({
-    avgPrice: 1568,
+    avgPrice: 1294,
     pollination: "roślina wiatropylna",
     spreading: "anemochoria",
     lifeSpan: "Grab może przetrwać od 100 do 200 lat.",
@@ -81,7 +85,7 @@ TREES_TYPES["grab"] = new Tree({
 });
 
 TREES_TYPES["jesion"] = new Tree({
-    avgPrice: 1128,
+    avgPrice: 993,
     pollination: "roślina wiatropylna",
     spreading: "anemochoria, hydrochoria",
     lifeSpan: "Jesion żyje aż do 250 lat.",
@@ -90,7 +94,7 @@ TREES_TYPES["jesion"] = new Tree({
 });
 
 TREES_TYPES["jodla"] = new Tree({
-    avgPrice: 1159,
+    avgPrice: 1148,
     pollination: "roślina wiatropylna",
     spreading: "anemochoria, zoochoria",
     lifeSpan: "Jodła mogą żyć nawet 500 lat.",
@@ -99,7 +103,7 @@ TREES_TYPES["jodla"] = new Tree({
 });
 
 TREES_TYPES["kasztanowiec"] = new Tree({
-    avgPrice: 1107,
+    avgPrice: 911,
     pollination: "roślina owadopylna",
     spreading: "",
     lifeSpan: "Kasztanowce mogą żyć od 150 do 250 lat.",
@@ -108,7 +112,7 @@ TREES_TYPES["kasztanowiec"] = new Tree({
 });
 
 TREES_TYPES["klon"] = new Tree({
-    avgPrice: 1342,
+    avgPrice: 982,
     pollination: "roślina owadopylna",
     spreading: "anemochoria",
     lifeSpan: "Klon może żyć od 100 do 300 lat.",
@@ -117,7 +121,7 @@ TREES_TYPES["klon"] = new Tree({
 });
 
 TREES_TYPES["lipa"] = new Tree({
-    avgPrice: 1103,
+    avgPrice: 929,
     pollination: "roślina owadopylna",
     spreading: "anemochoria",
     lifeSpan: "Lipa dożywa ok. 500 lat.",
@@ -126,7 +130,7 @@ TREES_TYPES["lipa"] = new Tree({
 });
 
 TREES_TYPES["olsza"] = new Tree({
-    avgPrice: 1850,
+    avgPrice: 1304,
     pollination: "roślina wiatropylna",
     spreading: "anemochoria, hydrochoria, zoochoria",
     lifeSpan: "Olsza zazwyczaj żyje od 80 do 150 lat.",
@@ -135,7 +139,7 @@ TREES_TYPES["olsza"] = new Tree({
 });
 
 TREES_TYPES["sosna"] = new Tree({
-    avgPrice: 656,
+    avgPrice: 784,
     pollination: "roślina wiatropylna",
     spreading: "",
     lifeSpan: "Sosna żyje średnio od 200 do 600 lat.",
@@ -144,7 +148,7 @@ TREES_TYPES["sosna"] = new Tree({
 });
 
 TREES_TYPES["swierk"] = new Tree({
-    avgPrice: 740,
+    avgPrice: 794,
     pollination: "roślina wiatropylna",
     spreading: "anemochoria, zoochoria",
     lifeSpan: "Świerk może żyć od 200 do 500 lat.",
@@ -153,7 +157,7 @@ TREES_TYPES["swierk"] = new Tree({
 });
 
 TREES_TYPES["wierzba"] = new Tree({
-    avgPrice: 1633,
+    avgPrice: 1029,
     pollination: "roślina owadopylna",
     spreading: "",
     lifeSpan: "Wierzba zazwyczaj żyje od 30 do 50 lat.",
@@ -162,7 +166,7 @@ TREES_TYPES["wierzba"] = new Tree({
 });
 
 TREES_TYPES["inne"] = new Tree({
-    avgPrice: 930,
+    avgPrice: 905,
     pollination: "",
     spreading: "",
     lifeSpan: "",
@@ -173,6 +177,22 @@ TREES_TYPES["inne"] = new Tree({
 const TREE_CONDITION_VALUE = [0.10, 0.25, 0.50, 0.75, 1.00];
 
 const TREE_AGE_VALUE = [0, 5, 6, 8, 16, 30, 50, 70, 85, 100, 115, 128, 140, 152, 163, 173, 181, 187, 192, 197, 200];
+
+function ageChanged() {
+    if (TREE_CALCULATOR_AGE.value != "") {
+        TREE_CALCULATOR_PERIMETER.disabled = true;
+    } else {
+        TREE_CALCULATOR_PERIMETER.disabled = false;
+    }
+}
+
+function perimeterChanged() {
+    if (TREE_CALCULATOR_PERIMETER.value != "") {
+        TREE_CALCULATOR_AGE.disabled = true;
+    } else {
+        TREE_CALCULATOR_AGE.disabled = false;
+    }
+}
 
 function getAgeByDiameter(perimeter, species)
 {
@@ -242,9 +262,21 @@ function calculateTreeValue()
         let value;
         let age;
         if ((TREE_CALCULATOR_AGE.value === "" || TREE_CALCULATOR_AGE.value === undefined) && (TREE_CALCULATOR_PERIMETER.value !== "" && TREE_CALCULATOR_PERIMETER.value !== undefined)) {
-            age = getAgeByDiameter(TREE_CALCULATOR_PERIMETER.value, TREES_TYPES[CHOSEN_TREE]) / 10;
+            if (TREE_CALCULATOR_PERIMETER.value < 16) {
+                alert("Wprowadzony obwód drzewa jest zbyt niski");
+            } else if (TREE_CALCULATOR_PERIMETER.value > 284) {
+                alert("Wprowadzony obwód drzewa jest zbyt wysoki");
+            } else {
+                age = getAgeByDiameter(TREE_CALCULATOR_PERIMETER.value, TREES_TYPES[CHOSEN_TREE]) / 10;
+            }
         } else if ((TREE_CALCULATOR_AGE.value !== "" && TREE_CALCULATOR_AGE.value !== undefined)) { 
+            if (TREE_CALCULATOR_AGE.value < 10) {
+                alert("Wprowadzony wiek drzewa jest zbyt niski");
+            } else if (TREE_CALCULATOR_AGE.value > 200) {
+                alert("Wprowadzony wiek drzewa jest zbyt wysoki");
+            } else {
             age = Number(TREE_CALCULATOR_AGE.value) / 10;
+            }
         }
         let lowerValue = TREE_AGE_VALUE[Math.floor(age)];
         let higherValue = TREE_AGE_VALUE[Math.ceil(age)];

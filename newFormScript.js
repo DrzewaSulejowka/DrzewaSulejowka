@@ -8,6 +8,28 @@ let spec;
 let byNature;
 let form = document.getElementById('form');
 
+function updateTooltips() 
+{
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+}
+
+function contentWithTooltip(content, tooltip) 
+{
+    let element = document.createElement("span");
+    element.setAttribute("data-bs-toggle", "tooltip");
+    element.setAttribute("data-bs-html", "true");
+    element.setAttribute("data-bs-placement", "top");
+    element.title = tooltip;
+    element.setAttribute("class", "px-2 bg-dark text-white rounded");
+    element.appendChild(document.createTextNode(content));
+    element.id = "valueTooltip";
+    updateTooltips();
+    return element;
+}
+
 function clearForm()
 {
     form.innerHTML = "";
@@ -57,9 +79,9 @@ function generateLinkToCalculator()
     paragraph.appendChild(document.createTextNode("Jeśli chcesz dowiedzieć się więcej o wartości drzew, zapraszamy do skorzystania z "));
     let linkToCalculator = document.createElement("a");
     linkToCalculator.href = "#";
-    linkToCalculator.onclick = ""; // doSthOnClick
     linkToCalculator.classList.add("link-offset-1");
     linkToCalculator.appendChild(document.createTextNode("kalkulatora"));
+    linkToCalculator.addEventListener('click', () => {moveToTreeValueCalculator()});
     paragraph.appendChild(linkToCalculator);
     paragraph.appendChild(document.createTextNode("!"));
     return paragraph;
@@ -88,11 +110,14 @@ function warnAboutCutting (output, colorClass)
         paragraph2.appendChild(document.createTextNode("Zachęcamy do dbania o zieleń na Waszych działkach. Pamiętajmy, że każdy z nas ma wpływ na otaczające nas środowisko, a roślinność stanowi istotny element tej harmonii. Roztropnie planujmy prace porządkowe na nieruchomości!"));
         paragraph = document.createElement("p");
         paragraph.classList.add("h5");
-        paragraph.appendChild(document.createTextNode("Czy wiesz, że? Ekonomiści wyliczyli, że średnia wartość usług ekosystemowych świadczonych przez jedno duże drzewo to korzyść rzędu aż 15-20 tys. złotych!i Drzewa w naszym mieście dają nam to za darmo!"));
+        paragraph.appendChild(document.createTextNode("Czy wiesz, że? Ekonomiści wyliczyli, że średnia wartość usług ekosystemowych świadczonych przez jedno duże drzewo to korzyść rzędu aż 15-20 tys. złotych! "));
+        paragraph.appendChild(contentWithTooltip("i", `i - Szkop Z., Żylicz T., 2022, Analiza dotycząca roli obszarów zieleni miejskiej i wartości świadczonych przez nie usług w miastach partnerskich projektu "Od drzewa do miasta" wykoana na zlecenie UNEP/GRID-Warszawa, Warszawski Ośrodek Ekonomii Ekologicznej, Uniwersytet Warszawski`))
+        paragraph.appendChild(document.createTextNode(" i Drzewa w naszym mieście dają nam to za darmo!"));
         ouputDiv.appendChild(paragraph);
         ouputDiv.appendChild(generateLinkToCalculator());
         ouputDiv.appendChild(paragraph2);
         output.appendChild(ouputDiv);
+        updateTooltips();
 }
 
 function warnWithoutLink (output, colorClass) 
@@ -281,51 +306,6 @@ document.getElementById('bushesCompany').addEventListener('change', ()=> {
         document.getElementById('sBushesConservating').classList.remove("d-none");
         setToDefault('bushesConservating');
     }
-        // let paragraph = document.createElement("p");
-        // paragraph.classList.add("h5");
-        // paragraph.classList.add("text-success");
-        // paragraph.classList.add("p-1");
-        // paragraph.id = "out";
-        // paragraph.appendChild(document.createTextNode(bComp == "tak" ? "Musisz mieć zezwolenie" : "Musisz zgłosić usunięcie krzewów" ));
-        // form.appendChild(paragraph);
-        // let paragraph2 = document.createElement("p");
-        // paragraph2.classList.add("h5");
-        // paragraph2.classList.add("text-success");
-        // paragraph2.classList.add("p-1");
-        // paragraph2.id = "out2";
-        // let link = document.createElement("a");
-        // let link2 = document.createElement("a");
-        // let link3 = document.createElement("a");
-        // if (bComp == "tak") {
-        // paragraph2.appendChild(document.createTextNode("wzory formularzy do pobrania:"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // link.href = "https://www.sulejowek.pl/plik,12346,oswiadczenie-wspolnoty-mieszkaniowej.docx";
-        // link.download = "plik,12346,oswiadczenie-wspolnoty-mieszkaniowej.docx";
-        // link.appendChild(document.createTextNode("Oświadczenie wspólnoty mieszkaniowej (.docx)"));
-        // link2.href = "https://www.sulejowek.pl/plik,12047,wniosek-na-usuniecie-drzew-i-lub-krzewow-4-doc.doc";
-        // link2.download = "plik,12047,wniosek-na-usuniecie-drzew-i-lub-krzewow-4-doc.doc";
-        // link2.appendChild(document.createTextNode("	Wniosek_na_usuniecie_drzew_i_lub_krzewow(4) (.doc)"));
-        // link3.href = "https://www.sulejowek.pl/plik,6907,oswiadczenie-spoldzielni-mieszkaniowej.docx";
-        // link3.download = "plik,6907,oswiadczenie-spoldzielni-mieszkaniowej.docx";
-        // link3.appendChild(document.createTextNode("	Oświadczenie spółdzielni mieszkaniowej (.docx)"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link);
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link2);
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link3);
-        // } else {
-        // paragraph2.appendChild(document.createTextNode("wzory formularzy do pobrania:"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // link.href = "https://www.sulejowek.pl/plik,6914,zgloszenie-zamiaru-usuniecia-drzew-lub-krzewow.doc";
-        // link.download = "plik,6914,zgloszenie-zamiaru-usuniecia-drzew-lub-krzewow.doc";
-        // link.appendChild(document.createTextNode("Zgłoszenie zamiaru usunięcia drzew lub krzewów (.doc)"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link);
-        // }
-        // warnWithoutLink(form, "text-success");
-        // form.appendChild(paragraph2);
-
 });
 
 document.getElementById('bushesConservating').addEventListener('change', ()=> {
@@ -483,39 +463,13 @@ document.getElementById('conservating').addEventListener('change', ()=> {
         let link3 = document.createElement("a");
         if (comp == "tak") {
         paragraph2.appendChild(document.createTextNode((cons == "tak" ? "Możesz dokonać wycinki po uprzednim uzyskaniu zezwolenia od Wojewódzkiego Konserwatora Zabytków. " : "Możesz dokonać wycinki po uprzednim uzyskaniu zezwolenia od Burmistrza miasta Sulejówek. ") ));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(document.createTextNode("wzory formularzy do pobrania:"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // link.href = "https://www.sulejowek.pl/plik,12346,oswiadczenie-wspolnoty-mieszkaniowej.docx";
-        // link.download = "plik,12346,oswiadczenie-wspolnoty-mieszkaniowej.docx";
-        // link.appendChild(document.createTextNode("Oświadczenie wspólnoty mieszkaniowej (.docx)"));
-        // link2.href = "https://www.sulejowek.pl/plik,12047,wniosek-na-usuniecie-drzew-i-lub-krzewow-4-doc.doc";
-        // link2.download = "plik,12047,wniosek-na-usuniecie-drzew-i-lub-krzewow-4-doc.doc";
-        // link2.appendChild(document.createTextNode("	Wniosek_na_usuniecie_drzew_i_lub_krzewow(4) (.doc)"));
-        // link3.href = "https://www.sulejowek.pl/plik,6907,oswiadczenie-spoldzielni-mieszkaniowej.docx";
-        // link3.download = "plik,6907,oswiadczenie-spoldzielni-mieszkaniowej.docx";
-        // link3.appendChild(document.createTextNode("	Oświadczenie spółdzielni mieszkaniowej (.docx)"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link);
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link2);
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link3);
+
         form.appendChild(paragraph2);
         warnAboutCutting(form,  comp == "tak" ? "text-danger" : "text-warning");
         form.appendChild( cons == "tak" ? generateLinkToWebsiteShort("https://www.gov.pl/web/gdos/wycinka-drzew-lub-krzewow-na-nieruchomosciach-objetych-ochrona-konserwatora-zabytkow", comp == "tak" ? "text-danger" : "text-warning") : generateLinkToWebsiteLong("https://www.sulejowek.pl/1463,zezwolenie-na-usuniecie-drzew-i-lub-krzewow", comp == "tak" ? "text-danger" : "text-warning"))
         } else {
         paragraph2.appendChild(document.createTextNode((cons == "tak" ? "Możesz dokonać wycinki po uprzednim zgłoszeniu zamiaru wycinki do Wojewódzkiego Konserwatora Zabytków. " : "Możesz dokonać wycinki po uprzednim zgłoszeniu zamiaru wycinki do Burmistrza miasta Sulejówek. ") ));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(document.createTextNode("wzory formularzy do pobrania:"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // link.href = "https://www.sulejowek.pl/plik,6914,zgloszenie-zamiaru-usuniecia-drzew-lub-krzewow.doc";
-        // link.download = "plik,6914,zgloszenie-zamiaru-usuniecia-drzew-lub-krzewow.doc";
-        // link.appendChild(document.createTextNode("Zgłoszenie zamiaru usunięcia drzew lub krzewów (.doc)"));
-        // paragraph2.appendChild(document.createElement("br"));
-        // paragraph2.appendChild(link);
+
         form.appendChild(paragraph2);
         warnAboutCutting(form, comp == "tak" ? "text-danger" : "text-warning");
         form.appendChild( cons == "tak" ? generateLinkToWebsiteShort("https://www.gov.pl/web/gdos/wycinka-drzew-lub-krzewow-na-nieruchomosciach-objetych-ochrona-konserwatora-zabytkow", comp == "tak" ? "text-danger" : "text-warning") : generateLinkToWebsiteLong("https://www.sulejowek.pl/1464,zgloszenie-zamiaru-usuniecia-drzew-i-lub-krzewow", comp == "tak" ? "text-danger" : "text-warning"))
